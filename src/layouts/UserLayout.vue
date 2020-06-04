@@ -13,7 +13,7 @@
       <route-view></route-view>
 
       <div class="footer">
-        <div class="links">
+        <div class="links" style="display:none;">
           <a href="_self">帮助</a>
           <a href="_self">隐私</a>
           <a href="_self">条款</a>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
+import notification from 'ant-design-vue/es/notification'
 
 const user = {
   state: {
@@ -38,9 +39,20 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const result = response.result
-          Vue.ls.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
-          commit('SET_TOKEN', result.token)
-          resolve()
+          if (result.token) {
+            let expireTime = 24 * 60 * 60 * 1000
+            if (userInfo.rememberMe) {
+              expireTime = 7 * expireTime
+            }
+            Vue.ls.set(ACCESS_TOKEN, result.token, expireTime)
+            commit('SET_TOKEN', result.token)
+          } else {
+            notification.error({
+              message: '错误',
+              description: '用户名或密码错误'
+            })
+          }
+          resolve(result.token)
         }).catch(error => {
           reject(error)
         })
@@ -52,7 +64,6 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const result = response.result
-
           if (result.role && result.role.permissions.length > 0) {
             const role = result.role
             role.permissions = result.role.permissions
@@ -80,9 +91,9 @@ const user = {
     },
 
     // 登出
-    Logout ({ commit, state }) {
+    Logout ({ commit }) {
       return new Promise((resolve) => {
-        logout(state.token).then(() => {
+        logout().then(() => {
           resolve()
         }).catch(() => {
           resolve()
