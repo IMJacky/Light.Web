@@ -3,7 +3,8 @@ import { axios } from '@/utils/request'
 const api = {
   user: '/user',
   role: '/role',
-  service: '/service',
+  menuList: '/MenuEntity/page',
+  menuInfo: '/MenuEntity/',
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree'
@@ -27,11 +28,18 @@ export function getRoleList (parameter) {
   })
 }
 
-export function getServiceList (parameter) {
+export function getMenuList (parameter) {
   return axios({
-    url: api.service,
-    method: 'get',
-    params: parameter
+    url: api.menuList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getMenuInfo (parameter) {
+  return axios({
+    url: api.menuInfo + parameter,
+    method: 'get'
   })
 }
 
