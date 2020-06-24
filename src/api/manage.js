@@ -5,6 +5,7 @@ const api = {
   role: '/role',
   menuList: '/MenuEntity/page',
   menuInfo: '/MenuEntity/',
+  menuEdit: '/MenuEntity/edit',
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree'
@@ -40,6 +41,21 @@ export function getMenuInfo (parameter) {
   return axios({
     url: api.menuInfo + parameter,
     method: 'get'
+  })
+}
+
+export function editMenuInfo (parameter) {
+  return axios({
+    url: api.menuEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteMenuInfo (parameter) {
+  return axios({
+    url: api.menuInfo + parameter,
+    method: 'delete'
   })
 }
 

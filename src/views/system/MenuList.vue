@@ -26,7 +26,12 @@
             <span class="table-page-search-submitButtons" style="float:right;">
               <a-button type="primary" icon="search" @click="$refs.table.refresh(true)">查询</a-button>
               <a-button style="margin-left: 8px" icon="sync" @click="() => queryParam = {}">重置</a-button>
-              <a-button style="margin-left: 8px" type="primary" icon="plus" @click="$refs.MenuEditModal.edit(0)">新建</a-button>
+              <a-button
+                style="margin-left: 8px"
+                type="primary"
+                icon="plus"
+                @click="$refs.MenuEditModal.edit(0)"
+              >新增</a-button>
             </span>
           </a-col>
         </a-row>
@@ -41,18 +46,20 @@
       :data="loadData"
       showPagination="auto"
     >
-      <span slot="type" slot-scope="text">
-        {{ text | statusFilter }}
-      </span>
+      <span slot="type" slot-scope="text">{{ text | statusFilter }}</span>
       <span slot="menuName" slot-scope="text">
         <ellipsis :length="40" tooltip>{{ text }}</ellipsis>
       </span>
-
+      <span slot="icon" slot-scope="text">
+        <a-icon :type="text" v-if="text!=''" />
+      </span>
       <span slot="action" slot-scope="text, record">
         <template>
-          <a @click="$refs.MenuEditModal.edit(record.id)">配置</a>
+          <a @click="$refs.MenuEditModal.edit(record.id)">编辑</a>
           <a-divider type="vertical" />
-          <a @click="handleSub(record)">订阅报警</a>
+          <a-popconfirm title="确定要删除么？" @confirm="remove(record.id)">
+            <a>删除</a>
+          </a-popconfirm>
         </template>
       </span>
     </s-table>
@@ -63,7 +70,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getMenuList } from '@/api/manage'
+import { getMenuList, deleteMenuInfo } from '@/api/manage'
 import MenuEdit from './MenuEdit'
 
 const statusMap = {
@@ -109,6 +116,27 @@ export default {
           scopedSlots: { customRender: 'type' }
         },
         {
+          title: '图标',
+          dataIndex: 'icon',
+          key: 'icon',
+          scopedSlots: { customRender: 'icon' }
+        },
+        {
+          title: '路由路径',
+          dataIndex: 'path',
+          key: 'path'
+        },
+        {
+          title: '组件路径',
+          dataIndex: 'component',
+          key: 'component'
+        },
+        {
+          title: '排序值',
+          dataIndex: 'sort',
+          key: 'sort'
+        },
+        {
           title: '操作',
           dataIndex: 'action',
           width: '150px',
@@ -134,12 +162,16 @@ export default {
 
   },
   methods: {
-    handleSub (record) {
-      if (record.type !== 0) {
-        this.$message.info(`${record.id} 订阅成功`)
-      } else {
-        this.$message.error(`${record.id} 订阅失败，规则已关闭`)
-      }
+    remove (id) {
+      deleteMenuInfo(id)
+        .then(res => {
+          if (res.result) {
+            this.handleOk()
+            this.$message.success('删除成功！')
+          } else {
+            this.$message.warning('删除失败，请刷新后重试！')
+          }
+        })
     },
     handleOk () {
       this.$refs.table.refresh()

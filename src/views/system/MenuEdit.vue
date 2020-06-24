@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    :title="menuInfo.id==0?'新建菜单':'修改菜单'"
+    :title="menuInfo.id==0?'新增菜单':'修改菜单'"
     :width="640"
     :visible="visible"
     :confirmLoading="confirmLoading"
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getMenuInfo } from '@/api/manage'
+import { getMenuInfo, editMenuInfo } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   data () {
@@ -89,12 +89,20 @@ export default {
       this.confirmLoading = true
       validateFields((errors, values) => {
         if (!errors) {
-          console.log('values', values)
-          setTimeout(() => {
-            this.visible = false
-            this.confirmLoading = false
-            this.$emit('ok', values)
-          }, 1500)
+          debugger
+          var formData = Object.assign(this.menuInfo, values)
+          editMenuInfo(formData)
+            .then(res => {
+              debugger
+              this.confirmLoading = false
+              if (res.result > 0) {
+                this.visible = false
+                this.$emit('ok')
+                this.$message.success('保存成功！')
+              } else {
+                this.$message.warning('保存失败，请刷新后重试！')
+              }
+            })
         } else {
           this.confirmLoading = false
         }
