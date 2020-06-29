@@ -96,6 +96,14 @@ const vueConfig = {
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/api-prod': {
+        target: 'http://10.154.5.185:10003',
+        ws: false,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api-prod': ''
+        }
       }
     }
   },
