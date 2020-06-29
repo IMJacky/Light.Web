@@ -89,11 +89,9 @@ export default {
       this.confirmLoading = true
       validateFields((errors, values) => {
         if (!errors) {
-          debugger
           var formData = Object.assign(this.menuInfo, values)
           editMenuInfo(formData)
             .then(res => {
-              debugger
               this.confirmLoading = false
               if (res.result > 0) {
                 this.visible = false
