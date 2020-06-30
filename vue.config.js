@@ -87,22 +87,22 @@ const vueConfig = {
   devServer: {
     // development server port 8000
     port: 8003,
-    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11
+    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11???????^api-dev?^api??????????
     proxy: {
-      '/api': {
+      '/api-dev': {
         target: 'http://127.0.0.1:8888',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '/api-dev': ''
         }
       },
-      '/api-prod': {
+      '/api': {
         target: 'http://10.154.5.185:10003',
         ws: false,
         changeOrigin: true,
         pathRewrite: {
-          '^/api-prod': ''
+          '/api': ''
         }
       }
     }
