@@ -6,28 +6,27 @@ const api = {
   menuList: '/MenuEntity/page',
   menuInfo: '/MenuEntity/',
   menuEdit: '/MenuEntity/edit',
+  userList: '/UserEntity/page',
+  userInfo: '/UserEntity/',
+  userEdit: '/UserEntity/edit',
+
+  roleList: '/RoleEntity/page',
+  roleInfo: '/RoleEntity/',
+  roleEdit: '/RoleEntity/edit',
+
+  deptList: '/DeptEntity/page',
+  deptInfo: '/DeptEntity/',
+  deptEdit: '/DeptEntity/edit',
+
+  jobList: '/JobEntity/page',
+  jobInfo: '/JobEntity/',
+  jobEdit: '/JobEntity/edit',
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree'
 }
 
 export default api
-
-export function getUserList (parameter) {
-  return axios({
-    url: api.user,
-    method: 'get',
-    params: parameter
-  })
-}
-
-export function getRoleList (parameter) {
-  return axios({
-    url: api.role,
-    method: 'get',
-    params: parameter
-  })
-}
 
 export function getMenuList (parameter) {
   return axios({
@@ -55,6 +54,126 @@ export function editMenuInfo (parameter) {
 export function deleteMenuInfo (parameter) {
   return axios({
     url: api.menuInfo + parameter,
+    method: 'delete'
+  })
+}
+
+export function getUserList (parameter) {
+  return axios({
+    url: api.userList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getUserInfo (parameter) {
+  return axios({
+    url: api.userInfo + parameter,
+    method: 'get'
+  })
+}
+
+export function editUserInfo (parameter) {
+  return axios({
+    url: api.userEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteUserInfo (parameter) {
+  return axios({
+    url: api.userInfo + parameter,
+    method: 'delete'
+  })
+}
+
+export function getRoleList (parameter) {
+  return axios({
+    url: api.roleList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getRoleInfo (parameter) {
+  return axios({
+    url: api.roleInfo + parameter,
+    method: 'get'
+  })
+}
+
+export function editRoleInfo (parameter) {
+  return axios({
+    url: api.roleEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteRoleInfo (parameter) {
+  return axios({
+    url: api.roleInfo + parameter,
+    method: 'delete'
+  })
+}
+
+export function getDeptList (parameter) {
+  return axios({
+    url: api.deptList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getDeptInfo (parameter) {
+  return axios({
+    url: api.deptInfo + parameter,
+    method: 'get'
+  })
+}
+
+export function editDeptInfo (parameter) {
+  return axios({
+    url: api.deptEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteDeptInfo (parameter) {
+  return axios({
+    url: api.deptInfo + parameter,
+    method: 'delete'
+  })
+}
+
+export function getJobList (parameter) {
+  return axios({
+    url: api.jobList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getJobInfo (parameter) {
+  return axios({
+    url: api.jobInfo + parameter,
+    method: 'get'
+  })
+}
+
+export function editJobInfo (parameter) {
+  return axios({
+    url: api.jobEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteJobInfo (parameter) {
+  return axios({
+    url: api.jobInfo + parameter,
     method: 'delete'
   })
 }
