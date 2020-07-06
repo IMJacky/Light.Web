@@ -129,6 +129,9 @@ export const generator = (routerMap, parent) => {
         permission: item.name
       }
     }
+    if (item.isLink) {
+      currentRouter.meta.target = '_blank'
+    }
     // 是否设置了隐藏菜单
     if (show === false) {
       currentRouter.hidden = true
