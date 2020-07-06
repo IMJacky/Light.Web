@@ -5,7 +5,7 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="Id">
-              <a-input v-model="queryParam.id" placeholder="Id" />
+              <a-input v-model="queryParam.id" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
@@ -15,7 +15,9 @@
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="上级部门">
-              <a-input v-model="queryParam.parentDeptId" style="width: 100%" />
+              <a-select :allowClear="true" v-model="queryParam.parentDeptId" style="width: 100%">
+                <a-select-option v-for="(value, key) in parentDeptMap" :key="key">{{value}}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="24" :sm="24">
@@ -42,6 +44,10 @@
       :data="loadData"
       showPagination="auto"
     >
+      <span slot="parentDeptId" slot-scope="text">
+        {{parentDeptMap[text]}}
+      </span>
+
       <span slot="action" slot-scope="text, record">
         <template>
           <a @click="$refs.DeptEditModal.edit(record.id)">编辑</a>
@@ -59,7 +65,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getDeptList, deleteDeptInfo } from '@/api/manage'
+import { getDeptList, deleteDeptInfo, getDeptListParent } from '@/api/manage'
 import DeptEdit from './DeptEdit'
 
 export default {
@@ -88,7 +94,8 @@ export default {
         {
           title: '上级部门',
           dataIndex: 'parentDeptId',
-          key: 'parentDeptId'
+          key: 'parentDeptId',
+          scopedSlots: { customRender: 'parentDeptId' }
         },
         {
           title: '操作',
@@ -104,13 +111,17 @@ export default {
           .then(res => {
             return res.result
           })
-      }
+      },
+      parentDeptMap: {}
     }
   },
   filters: {
   },
   created () {
-
+    getDeptListParent()
+      .then(res => {
+        this.parentDeptMap = res.result
+      })
   },
   methods: {
     remove (id) {

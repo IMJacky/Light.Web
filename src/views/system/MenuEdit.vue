@@ -14,7 +14,9 @@
         </a-form-item>
 
         <a-form-item label="父级菜单" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['parentMenuId']" />
+          <a-select :allowClear="true" v-decorator="['parentMenuId',{rules: [{required: true, message: '请选择父级菜单！'}]}]">
+            <a-select-option v-for="(value, key) in parentMenuMap" :key="key">{{value}}</a-select-option>
+          </a-select>
         </a-form-item>
 
         <a-form-item label="路由地址" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -49,7 +51,7 @@
 </template>
 
 <script>
-import { getMenuInfo, editMenuInfo } from '@/api/manage'
+import { getMenuInfo, editMenuInfo, getMenuListParent } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   data () {
@@ -65,7 +67,8 @@ export default {
       visible: false,
       confirmLoading: false,
       form: this.$form.createForm(this),
-      menuInfo: {}
+      menuInfo: {},
+      parentMenuMap: {}
     }
   },
   methods: {
@@ -73,11 +76,16 @@ export default {
       this.menuInfo.id = id
       this.visible = true
       this.form.resetFields()
+      getMenuListParent()
+        .then(res => {
+          this.parentMenuMap = res.result
+        })
       if (id > 0) {
         getMenuInfo(id)
           .then(res => {
             var fieldsVal = pick(res.result, 'menuName', 'parentMenuId', 'path', 'component', 'type', 'sort', 'icon')
             fieldsVal.type = fieldsVal.type.toString()
+            fieldsVal.parentMenuId = fieldsVal.parentMenuId.toString()
             this.$nextTick(() => {
               this.form.setFieldsValue(fieldsVal)
             })

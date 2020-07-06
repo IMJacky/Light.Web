@@ -18,7 +18,20 @@
         </a-form-item>
 
         <a-form-item label="头像" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['avatarUrl']" />
+          <a-input v-decorator="['avatarUrl']" v-show="false" />
+          <a-badge
+            v-for="i in 8"
+            :key="'/avatar'+i+'.jpg'"
+            style="margin:5px;"
+            @click="avatarSelect('/avatar'+i+'.jpg')"
+          >
+            <a-icon
+              slot="count"
+              :type="userInfo.avatarUrl=='/avatar'+i+'.jpg'?'check-circle':'none'"
+              style="color: green"
+            />
+            <a-avatar :size="64" :src="'/avatar'+i+'.jpg'" />
+          </a-badge>
         </a-form-item>
 
         <a-form-item label="性别" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -65,14 +78,16 @@ export default {
   },
   methods: {
     edit (id) {
+      this.userInfo = {}
+      this.form.resetFields()
       this.userInfo.id = id
       this.visible = true
-      this.form.resetFields()
       if (id > 0) {
         getUserInfo(id)
           .then(res => {
             var fieldsVal = pick(res.result, 'userName', 'nickName', 'avatarUrl', 'gender', 'phone', 'email')
             fieldsVal.gender = fieldsVal.gender.toString()
+            this.userInfo.avatarUrl = fieldsVal.avatarUrl
             this.$nextTick(() => {
               this.form.setFieldsValue(fieldsVal)
             })
@@ -103,6 +118,12 @@ export default {
     },
     handleCancel () {
       this.visible = false
+    },
+    avatarSelect (key) {
+      this.userInfo.avatarUrl = key
+      this.form.setFieldsValue({
+        avatarUrl: key
+      })
     }
   }
 }

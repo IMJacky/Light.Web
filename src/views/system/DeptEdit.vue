@@ -14,7 +14,9 @@
         </a-form-item>
 
         <a-form-item label="父级部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['parentDeptId']" />
+          <a-select :allowClear="true" v-decorator="['parentDeptId',{rules: [{required: true, message: '请选择父级菜单！'}]}]">
+            <a-select-option v-for="(value, key) in parentDeptMap" :key="key">{{value}}</a-select-option>
+          </a-select>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-import { getDeptInfo, editDeptInfo } from '@/api/manage'
+import { getDeptInfo, editDeptInfo, getDeptListParent } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   data () {
@@ -38,7 +40,8 @@ export default {
       visible: false,
       confirmLoading: false,
       form: this.$form.createForm(this),
-      deptInfo: {}
+      deptInfo: {},
+      parentDeptMap: {}
     }
   },
   methods: {
@@ -46,6 +49,10 @@ export default {
       this.deptInfo.id = id
       this.visible = true
       this.form.resetFields()
+      getDeptListParent()
+        .then(res => {
+          this.parentDeptMap = res.result
+        })
       if (id > 0) {
         getDeptInfo(id)
           .then(res => {

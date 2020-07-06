@@ -3,9 +3,11 @@ import { axios } from '@/utils/request'
 const api = {
   user: '/user',
   role: '/role',
+  menuListParent: '/MenuEntity/listParent',
   menuList: '/MenuEntity/page',
   menuInfo: '/MenuEntity/',
   menuEdit: '/MenuEntity/edit',
+
   userList: '/UserEntity/page',
   userInfo: '/UserEntity/',
   userEdit: '/UserEntity/edit',
@@ -14,6 +16,7 @@ const api = {
   roleInfo: '/RoleEntity/',
   roleEdit: '/RoleEntity/edit',
 
+  deptListParent: '/DeptEntity/listParent',
   deptList: '/DeptEntity/page',
   deptInfo: '/DeptEntity/',
   deptEdit: '/DeptEntity/edit',
@@ -27,6 +30,13 @@ const api = {
 }
 
 export default api
+
+export function getMenuListParent () {
+  return axios({
+    url: api.menuListParent,
+    method: 'get'
+  })
+}
 
 export function getMenuList (parameter) {
   return axios({
@@ -115,6 +125,13 @@ export function deleteRoleInfo (parameter) {
   return axios({
     url: api.roleInfo + parameter,
     method: 'delete'
+  })
+}
+
+export function getDeptListParent () {
+  return axios({
+    url: api.deptListParent,
+    method: 'get'
   })
 }
 
