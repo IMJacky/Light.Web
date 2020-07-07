@@ -22,6 +22,13 @@
               <a-input v-model="queryParam.menuName" style="width: 100%" />
             </a-form-item>
           </a-col>
+          <a-col :md="8" :sm="24">
+            <a-form-item label="父级菜单">
+              <a-select :allowClear="true" v-model="queryParam.parentMenuId" style="width: 100%">
+                <a-select-option v-for="(value, key) in parentMenuMap" :key="key">{{value}}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
           <a-col :md="24" :sm="24">
             <span class="table-page-search-submitButtons" style="float:right;">
               <a-button type="primary" icon="search" @click="$refs.table.refresh(true)">查询</a-button>
@@ -30,6 +37,7 @@
                 style="margin-left: 8px"
                 type="primary"
                 icon="plus"
+                 v-action:add
                 @click="$refs.MenuEditModal.edit(0)"
               >新增</a-button>
             </span>
@@ -53,6 +61,11 @@
       <span slot="icon" slot-scope="text">
         <a-icon :type="text" v-if="text!=''" />
       </span>
+      <span slot="path" slot-scope="text, record">
+        <a v-if="record.type===2" :href="text" target="_blank">{{text}}</a>
+        <span v-else>{{text}}</span>
+      </span>
+      <span slot="parentMenuId" slot-scope="text">{{parentMenuMap[text]}}</span>
       <span slot="action" slot-scope="text, record">
         <template>
           <a @click="$refs.MenuEditModal.edit(record.id)">编辑</a>
@@ -70,7 +83,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getMenuList, deleteMenuInfo } from '@/api/manage'
+import { getMenuList, deleteMenuInfo, getMenuListParent } from '@/api/manage'
 import MenuEdit from './MenuEdit'
 
 const statusMap = {
@@ -122,9 +135,16 @@ export default {
           scopedSlots: { customRender: 'icon' }
         },
         {
+          title: '父级菜单',
+          dataIndex: 'parentMenuId',
+          key: 'parentMenuId',
+          scopedSlots: { customRender: 'parentMenuId' }
+        },
+        {
           title: '路由路径',
           dataIndex: 'path',
-          key: 'path'
+          key: 'path',
+          scopedSlots: { customRender: 'path' }
         },
         {
           title: '组件路径',
@@ -150,7 +170,8 @@ export default {
           .then(res => {
             return res.result
           })
-      }
+      },
+      parentMenuMap: {}
     }
   },
   filters: {
@@ -159,7 +180,10 @@ export default {
     }
   },
   created () {
-
+    getMenuListParent()
+      .then(res => {
+        this.parentMenuMap = res.result
+      })
   },
   methods: {
     remove (id) {

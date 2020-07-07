@@ -126,7 +126,7 @@ export const generator = (routerMap, parent) => {
         icon: icon || undefined,
         hiddenHeaderContent: hiddenHeaderContent,
         target: target,
-        permission: item.name
+        permission: item.key
       }
     }
     if (item.isLink) {
