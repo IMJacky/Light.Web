@@ -37,7 +37,7 @@
                 style="margin-left: 8px"
                 type="primary"
                 icon="plus"
-                 v-action:add
+                v-action:add
                 @click="$refs.MenuEditModal.edit(0)"
               >新增</a-button>
             </span>

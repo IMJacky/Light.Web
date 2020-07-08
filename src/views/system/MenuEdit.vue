@@ -9,24 +9,6 @@
   >
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-        <a-form-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['menuName', {rules: [{required: true, message: '请输入菜单名称！'}]}]" />
-        </a-form-item>
-
-        <a-form-item label="父级菜单" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-select :allowClear="true" v-decorator="['parentMenuId',{rules: [{required: true, message: '请选择父级菜单！'}]}]">
-            <a-select-option v-for="(value, key) in parentMenuMap" :key="key">{{value}}</a-select-option>
-          </a-select>
-        </a-form-item>
-
-        <a-form-item label="路由地址" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['path']" />
-        </a-form-item>
-
-        <a-form-item label="组件路径" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['component']" />
-        </a-form-item>
-
         <a-form-item label="类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-select
             :allowClear="true"
@@ -38,13 +20,35 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item label="排序值" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['sort']" />
+        <a-form-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-input v-decorator="['menuName', {rules: [{required: true, message: '请输入菜单名称！'}]}]" />
         </a-form-item>
 
-        <a-form-item label="图标" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-input v-decorator="['icon']" />
+        <a-form-item label="父级菜单" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-select
+            :allowClear="true"
+            v-decorator="['parentMenuId',{rules: [{required: true, message: '请选择父级菜单！'}]}]"
+          >
+            <a-select-option v-for="(value, key) in parentMenuMap" :key="key">{{value}}</a-select-option>
+          </a-select>
         </a-form-item>
+
+        <a-form-item label="路由地址" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-input v-decorator="['path',{rules: [{required: true, message: '请输入路由地址！'}]}]" />
+        </a-form-item>
+        <div v-if="form.getFieldValue('type')!=1">
+          <a-form-item label="组件路径" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input v-decorator="['component']" />
+          </a-form-item>
+
+          <a-form-item label="排序值" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input v-decorator="['sort']" />
+          </a-form-item>
+
+          <a-form-item label="图标" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input v-decorator="['icon']" />
+          </a-form-item>
+        </div>
       </a-form>
     </a-spin>
   </a-modal>
@@ -66,10 +70,13 @@ export default {
       },
       visible: false,
       confirmLoading: false,
-      form: this.$form.createForm(this),
       menuInfo: {},
       parentMenuMap: {}
     }
+  },
+  beforeCreate () {
+    this.form = this.$form.createForm(this)
+    this.form.getFieldDecorator('type', { initialValue: '' })
   },
   methods: {
     edit (id) {
