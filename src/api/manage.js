@@ -12,6 +12,7 @@ const api = {
   userInfo: '/UserEntity/',
   userEdit: '/UserEntity/edit',
 
+  roleListAll: '/RoleEntity/list',
   roleList: '/RoleEntity/page',
   roleInfo: '/RoleEntity/',
   roleEdit: '/RoleEntity/edit',
@@ -95,6 +96,13 @@ export function deleteUserInfo (parameter) {
   return axios({
     url: api.userInfo + parameter,
     method: 'delete'
+  })
+}
+
+export function getRoleListAll () {
+  return axios({
+    url: api.roleListAll,
+    method: 'get'
   })
 }
 

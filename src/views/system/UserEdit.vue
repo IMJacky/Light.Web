@@ -51,13 +51,28 @@
         <a-form-item label="邮箱" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input v-decorator="['email']" />
         </a-form-item>
+
+        <a-form-item label="分配角色" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-select
+            mode="multiple"
+            :filterOption="filterOption"
+            :allowClear="true"
+            v-decorator="['roleId']"
+          >
+            <a-select-option
+              v-for="role in allRoleMap"
+              :key="role.id"
+              :value="role.id"
+            >{{role.description}}</a-select-option>
+          </a-select>
+        </a-form-item>
       </a-form>
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-import { getUserInfo, editUserInfo } from '@/api/manage'
+import { getUserInfo, editUserInfo, getRoleListAll } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   data () {
@@ -73,7 +88,8 @@ export default {
       visible: false,
       confirmLoading: false,
       form: this.$form.createForm(this),
-      userInfo: {}
+      userInfo: {},
+      allRoleMap: {}
     }
   },
   methods: {
@@ -82,12 +98,21 @@ export default {
       this.form.resetFields()
       this.userInfo.id = id
       this.visible = true
+      getRoleListAll()
+        .then(res => {
+          this.allRoleMap = res.result
+        })
       if (id > 0) {
         getUserInfo(id)
           .then(res => {
-            var fieldsVal = pick(res.result, 'userName', 'nickName', 'avatarUrl', 'gender', 'phone', 'email')
+            var fieldsVal = pick(res.result, 'userName', 'nickName', 'avatarUrl', 'gender', 'phone', 'email', 'roleId')
             fieldsVal.gender = fieldsVal.gender.toString()
             this.userInfo.avatarUrl = fieldsVal.avatarUrl
+            if (fieldsVal.roleId != null && fieldsVal.roleId.length > 0) {
+              fieldsVal.roleId = fieldsVal.roleId.split(',').map(m => {
+                return Number(m)
+              })
+            }
             this.$nextTick(() => {
               this.form.setFieldsValue(fieldsVal)
             })
@@ -124,6 +149,11 @@ export default {
       this.form.setFieldsValue({
         avatarUrl: key
       })
+    },
+    filterOption (input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      )
     }
   }
 }

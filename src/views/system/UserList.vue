@@ -45,6 +45,9 @@
       <span slot="userName" slot-scope="text">
         <ellipsis :length="40" tooltip>{{ text }}</ellipsis>
       </span>
+      <span slot="roleName" slot-scope="text">
+        <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+      </span>
       <span slot="avatarUrl" slot-scope="text">
         <img v-if="text" :src="text" height="30" width="30" />
       </span>
@@ -119,6 +122,12 @@ export default {
           dataIndex: 'gender',
           key: 'gender',
           scopedSlots: { customRender: 'gender' }
+        },
+        {
+          title: '所属角色',
+          dataIndex: 'roleName',
+          key: 'roleName',
+          scopedSlots: { customRender: 'roleName' }
         },
         {
           title: '操作',
