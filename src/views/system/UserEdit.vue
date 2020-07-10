@@ -112,6 +112,8 @@ export default {
               fieldsVal.roleId = fieldsVal.roleId.split(',').map(m => {
                 return Number(m)
               })
+            } else {
+              fieldsVal.roleId = []
             }
             this.$nextTick(() => {
               this.form.setFieldsValue(fieldsVal)
