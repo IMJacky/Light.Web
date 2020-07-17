@@ -46,6 +46,8 @@
         <template>
           <a @click="$refs.RoleEditModal.edit(record.id)">编辑</a>
           <a-divider type="vertical" />
+          <a @click="$refs.RoleMenuEditModal.edit(record.id)">分配资源</a>
+          <a-divider type="vertical" />
           <a-popconfirm title="确定要删除么？" @confirm="remove(record.id)">
             <a>删除</a>
           </a-popconfirm>
@@ -54,6 +56,7 @@
     </s-table>
 
     <role-edit ref="RoleEditModal" @ok="handleOk" />
+    <role-menu-edit ref="RoleMenuEditModal" @ok="handleOk" />
   </a-card>
 </template>
 
@@ -61,13 +64,15 @@
 import { STable, Ellipsis } from '@/components'
 import { getRoleList, deleteRoleInfo } from '@/api/manage'
 import RoleEdit from './RoleEdit'
+import RoleMenuEdit from './RoleMenuEdit'
 
 export default {
   name: 'TableList',
   components: {
     STable,
     RoleEdit,
-    Ellipsis
+    Ellipsis,
+    RoleMenuEdit
   },
   data () {
     return {

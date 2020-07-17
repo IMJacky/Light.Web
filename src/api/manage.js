@@ -3,6 +3,9 @@ import { axios } from '@/utils/request'
 const api = {
   user: '/user',
   role: '/role',
+
+  userMenuTree: '/auth/userMenuTre',
+
   menuListParent: '/MenuEntity/listParent',
   menuList: '/MenuEntity/page',
   menuInfo: '/MenuEntity/',
@@ -31,6 +34,13 @@ const api = {
 }
 
 export default api
+
+export function getUserMenuTree () {
+  return axios({
+    url: api.userMenuTree,
+    method: 'get'
+  })
+}
 
 export function getMenuListParent () {
   return axios({
