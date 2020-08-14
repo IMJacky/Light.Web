@@ -4,7 +4,9 @@ const api = {
   user: '/user',
   role: '/role',
 
-  userMenuTree: '/auth/userMenuTre',
+  userMenuTree: '/auth/userMenuTree',
+
+  roleMenuTree: '/auth/roleMenuTree',
 
   menuListParent: '/MenuEntity/listParent',
   menuList: '/MenuEntity/page',
@@ -20,6 +22,8 @@ const api = {
   roleInfo: '/RoleEntity/',
   roleEdit: '/RoleEntity/edit',
 
+  roleMenuEdit: '/RoleMenuEntity/edit',
+
   deptListParent: '/DeptEntity/listParent',
   deptList: '/DeptEntity/page',
   deptInfo: '/DeptEntity/',
@@ -34,6 +38,21 @@ const api = {
 }
 
 export default api
+
+export function editRoleMenu (parameter) {
+  return axios({
+    url: api.roleMenuEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getRoleMenuTree (roleId) {
+  return axios({
+    url: api.roleMenuTree + '?roleId=' + roleId,
+    method: 'get'
+  })
+}
 
 export function getUserMenuTree () {
   return axios({
