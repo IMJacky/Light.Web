@@ -64,7 +64,7 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const result = response.result
-          if (result.role && result.role.permissions.length > 0) {
+          if (result.role && result.role.permissions && result.role.permissions.length > 0) {
             const role = result.role
             role.permissions = result.role.permissions
             role.permissions.map(per => {
@@ -77,7 +77,7 @@ const user = {
             commit('SET_ROLES', result.role)
             commit('SET_INFO', result)
           } else {
-            reject(new Error('getInfo: roles must be a non-null array !'))
+            reject(new Error('你当前还没有分配系统权限'))
           }
 
           commit('SET_NAME', { name: result.name, welcome: welcome() })

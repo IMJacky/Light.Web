@@ -42,10 +42,10 @@ router.beforeEach((to, from, next) => {
               }
             })
           })
-          .catch(() => {
+          .catch((ex) => {
             notification.error({
               message: '错误',
-              description: '请求用户信息失败，请重试'
+              description: ex.message
             })
             store.dispatch('Logout').then(() => {
               next({ path: '/user/login', query: { redirect: to.fullPath } })
