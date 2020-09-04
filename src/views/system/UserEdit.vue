@@ -52,6 +52,27 @@
           <a-input v-decorator="['email']" />
         </a-form-item>
 
+        <a-form-item label="所属部门" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-cascader
+            :options="deptCascadeAll"
+            v-decorator="['deptIdList']"
+            placeholder="请选择部门"
+            change-on-select
+          />
+        </a-form-item>
+
+        <a-form-item label="所属岗位" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-select
+            :filterOption="filterOption"
+            :allowClear="true"
+            :showSearch="true"
+            v-decorator="['jobId']"
+            placeholder="请选择岗位"
+          >
+            <a-select-option v-for="job in jobList" :key="job.id" :value="job.id">{{job.jobName}}</a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item label="分配角色" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-select
             mode="multiple"
@@ -72,9 +93,14 @@
 </template>
 
 <script>
-import { getUserInfo, editUserInfo, getRoleListAll } from '@/api/manage'
+import ACascader from 'ant-design-vue/lib/cascader'
+import 'ant-design-vue/lib/cascader/style'
+import { getUserInfo, editUserInfo, getRoleListAll, getDeptCascadeAll, getJobListAll } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
+  components: {
+    ACascader
+  },
   data () {
     return {
       labelCol: {
@@ -89,7 +115,9 @@ export default {
       confirmLoading: false,
       form: this.$form.createForm(this),
       userInfo: {},
-      allRoleMap: {}
+      allRoleMap: {},
+      jobList: [],
+      deptCascadeAll: []
     }
   },
   methods: {
@@ -102,11 +130,21 @@ export default {
         .then(res => {
           this.allRoleMap = res.result
         })
+      getJobListAll()
+        .then(res => {
+          this.jobList = res.result
+        })
+      getDeptCascadeAll().then(res => {
+        this.deptCascadeAll = res.result
+      })
       if (id > 0) {
         getUserInfo(id)
           .then(res => {
-            var fieldsVal = pick(res.result, 'userName', 'nickName', 'avatarUrl', 'gender', 'phone', 'email', 'roleId')
+            var fieldsVal = pick(res.result, 'userName', 'nickName', 'avatarUrl', 'gender', 'phone', 'email', 'roleId', 'deptIdList', 'jobId')
             fieldsVal.gender = fieldsVal.gender.toString()
+            if (fieldsVal.jobId === 0) {
+              fieldsVal.jobId = undefined
+            }
             this.userInfo.avatarUrl = fieldsVal.avatarUrl
             if (fieldsVal.roleId != null && fieldsVal.roleId.length > 0) {
               fieldsVal.roleId = fieldsVal.roleId.split(',').map(m => {

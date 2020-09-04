@@ -8,7 +8,7 @@ const api = {
 
   roleMenuTree: '/auth/roleMenuTree',
 
-  menuListParent: '/MenuEntity/listParent',
+  menuMapAll: '/MenuEntity/mapAll',
   menuList: '/MenuEntity/page',
   menuInfo: '/MenuEntity/',
   menuEdit: '/MenuEntity/edit',
@@ -24,11 +24,13 @@ const api = {
 
   roleMenuEdit: '/RoleMenuEntity/edit',
 
-  deptListParent: '/DeptEntity/listParent',
+  deptMapAll: '/DeptEntity/mapAll',
+  deptCascadeAll: '/DeptEntity/cascadeAll',
   deptList: '/DeptEntity/page',
   deptInfo: '/DeptEntity/',
   deptEdit: '/DeptEntity/edit',
 
+  jobListAll: '/JobEntity/list',
   jobList: '/JobEntity/page',
   jobInfo: '/JobEntity/',
   jobEdit: '/JobEntity/edit',
@@ -61,9 +63,9 @@ export function getUserMenuTree () {
   })
 }
 
-export function getMenuListParent () {
+export function getMenuMapAll () {
   return axios({
-    url: api.menuListParent,
+    url: api.menuMapAll,
     method: 'get'
   })
 }
@@ -165,9 +167,16 @@ export function deleteRoleInfo (parameter) {
   })
 }
 
-export function getDeptListParent () {
+export function getDeptMapAll () {
   return axios({
-    url: api.deptListParent,
+    url: api.deptMapAll,
+    method: 'get'
+  })
+}
+
+export function getDeptCascadeAll () {
+  return axios({
+    url: api.deptCascadeAll,
     method: 'get'
   })
 }
@@ -199,6 +208,13 @@ export function deleteDeptInfo (parameter) {
   return axios({
     url: api.deptInfo + parameter,
     method: 'delete'
+  })
+}
+
+export function getJobListAll () {
+  return axios({
+    url: api.jobListAll,
+    method: 'get'
   })
 }
 

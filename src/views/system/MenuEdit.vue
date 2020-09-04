@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { getMenuInfo, editMenuInfo, getMenuListParent } from '@/api/manage'
+import { getMenuInfo, editMenuInfo, getMenuMapAll } from '@/api/manage'
 import pick from 'lodash.pick'
 export default {
   data () {
@@ -83,7 +83,7 @@ export default {
       this.menuInfo.id = id
       this.visible = true
       this.form.resetFields()
-      getMenuListParent()
+      getMenuMapAll()
         .then(res => {
           this.parentMenuMap = res.result
         })

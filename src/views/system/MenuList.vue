@@ -83,7 +83,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getMenuList, deleteMenuInfo, getMenuListParent } from '@/api/manage'
+import { getMenuList, deleteMenuInfo, getMenuMapAll } from '@/api/manage'
 import MenuEdit from './MenuEdit'
 
 const statusMap = {
@@ -180,7 +180,7 @@ export default {
     }
   },
   created () {
-    getMenuListParent()
+    getMenuMapAll()
       .then(res => {
         this.parentMenuMap = res.result
       })

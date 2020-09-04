@@ -65,7 +65,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getDeptList, deleteDeptInfo, getDeptListParent } from '@/api/manage'
+import { getDeptList, deleteDeptInfo, getDeptMapAll } from '@/api/manage'
 import DeptEdit from './DeptEdit'
 
 export default {
@@ -118,7 +118,7 @@ export default {
   filters: {
   },
   created () {
-    getDeptListParent()
+    getDeptMapAll()
       .then(res => {
         this.parentDeptMap = res.result
       })
