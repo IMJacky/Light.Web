@@ -34,6 +34,10 @@ const api = {
   jobList: '/JobEntity/page',
   jobInfo: '/JobEntity/',
   jobEdit: '/JobEntity/edit',
+
+  logList: '/LogEntity/page',
+  executeSql: '/common/executeSql',
+
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree'
@@ -245,6 +249,22 @@ export function deleteJobInfo (parameter) {
   return axios({
     url: api.jobInfo + parameter,
     method: 'delete'
+  })
+}
+
+export function getLogList (parameter) {
+  return axios({
+    url: api.logList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function executeSql (parameter) {
+  return axios({
+    url: api.executeSql,
+    method: 'post',
+    data: parameter
   })
 }
 
