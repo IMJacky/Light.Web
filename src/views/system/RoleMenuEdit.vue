@@ -11,13 +11,11 @@
       <a-tree
         v-model="checkedKeys"
         checkable
-        :expanded-keys="expandedKeys"
-        :auto-expand-parent="autoExpandParent"
-        :selected-keys="selectedKeys"
+        :expandedKeys="expandedKeys"
         :tree-data="treeData"
-        @expand="onExpand"
-        @select="onSelect"
+        :checkStrictly="true"
         @check="onCheck"
+        @expand="onExpand"
       />
     </a-spin>
   </a-modal>
@@ -33,11 +31,8 @@ export default {
   },
   data () {
     return {
-      expandedKeys: [],
-      autoExpandParent: true,
       checkedKeys: [],
-      checkedKeysAll: [],
-      selectedKeys: [],
+      expandedKeys: [],
       treeData: [],
       visible: false,
       confirmLoading: false,
@@ -56,11 +51,12 @@ export default {
       getRoleMenuTree(roleId).then(res => {
         this.treeData = res.result.menuTreeList
         this.checkedKeys = res.result.menuTreeCheckedList
+        this.expandedKeys = res.result.menuTreeExpandList
       })
     },
     handleSubmit () {
       this.confirmLoading = true
-      var formData = { roleId: this.roleId, menuIdList: this.checkedKeysAll }
+      var formData = { roleId: this.roleId, menuIdList: this.checkedKeys }
       editRoleMenu(formData)
         .then(res => {
           this.confirmLoading = false
@@ -76,20 +72,10 @@ export default {
       this.visible = false
     },
     onExpand (expandedKeys) {
-      console.log('onExpand', expandedKeys)
-      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-      // or, you can remove all expanded children keys.
       this.expandedKeys = expandedKeys
-      this.autoExpandParent = false
     },
-    onCheck (checkedKeys, e) {
-      console.log('onCheck', checkedKeys)
-      this.checkedKeys = checkedKeys
-      this.checkedKeysAll = checkedKeys.concat(e.halfCheckedKeys)
-    },
-    onSelect (selectedKeys, info) {
-      console.log('onSelect', info)
-      this.selectedKeys = selectedKeys
+    onCheck (e) {
+      this.checkedKeys = e.checked
     }
   }
 }

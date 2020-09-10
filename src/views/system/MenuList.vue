@@ -68,9 +68,9 @@
       <span slot="parentMenuId" slot-scope="text">{{parentMenuMap[text]}}</span>
       <span slot="action" slot-scope="text, record">
         <template>
-          <a @click="$refs.MenuEditModal.edit(record.id)">编辑</a>
+          <a v-action:edit @click="$refs.MenuEditModal.edit(record.id)">编辑</a>
           <a-divider type="vertical" />
-          <a-popconfirm title="确定要删除么？" @confirm="remove(record.id)">
+          <a-popconfirm v-action:delete title="确定要删除么？" @confirm="remove(record.id)">
             <a>删除</a>
           </a-popconfirm>
         </template>
@@ -99,7 +99,7 @@ const statusMap = {
 }
 
 export default {
-  name: 'TableList',
+  name: 'MenuList',
   components: {
     STable,
     MenuEdit,

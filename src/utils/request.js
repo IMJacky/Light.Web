@@ -3,6 +3,7 @@ import axios from 'axios'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
+import store from '../store'
 
 // 创建 axios 实例
 const service = axios.create({
@@ -27,6 +28,11 @@ service.interceptors.request.use(config => {
   const token = Vue.ls.get(ACCESS_TOKEN)
   if (token) {
     config.headers['Access-Token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+    var userInfo = store.getters.userInfo
+    if (userInfo && userInfo.id && userInfo.username && config.data) {
+      config.data.operateId = userInfo.id
+      config.data.operateName = userInfo.username
+    }
   }
   return config
 }, err)

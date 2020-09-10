@@ -38,9 +38,7 @@
         :labelCol="{lg: {span: 7}, sm: {span: 7}}"
         :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
       >
-        <a-textarea rows="10" v-decorator="[
-            'result'
-          ]" placeholder="执行结果" />
+        <a-textarea rows="10" v-decorator="[ 'result' ]" placeholder="执行结果" />
       </a-form-item>
     </a-form>
   </a-card>

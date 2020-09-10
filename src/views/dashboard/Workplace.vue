@@ -5,7 +5,7 @@
         {{ timeFix }}，{{ user.nickname }}
         <span class="welcome-text">，{{ welcome }}</span>
       </div>
-      <div>{{ user.jobName }} | {{ user.deptNameList.join(' - ') }}</div>
+      <div>{{ user.jobName }} | {{ user.deptNameList ? user.deptNameList.join(' - ') : '' }}</div>
     </div>
     <div slot="extra">
       <a-row class="more-info">

@@ -20,6 +20,18 @@
           </a-select>
         </a-form-item>
 
+        <a-form-item
+          label="快速选择"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          v-if="form.getFieldValue('type') === '1'"
+          key="0"
+        >
+          <a-select :allowClear="true" @change="onChangeButtonType">
+            <a-select-option v-for="(v,k) in buttonTypeMap" :key="k" :value="k">{{ v }}</a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input v-decorator="['menuName', {rules: [{required: true, message: '请输入菜单名称！'}]}]" />
         </a-form-item>
@@ -36,19 +48,36 @@
         <a-form-item label="路由地址" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input v-decorator="['path',{rules: [{required: true, message: '请输入路由地址！'}]}]" />
         </a-form-item>
-        <div v-if="form.getFieldValue('type')!=1">
-          <a-form-item label="组件路径" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-input v-decorator="['component']" />
-          </a-form-item>
 
-          <a-form-item label="排序值" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-input v-decorator="['sort']" />
-          </a-form-item>
+        <a-form-item
+          label="组件路径"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          v-if="form.getFieldValue('type') !== '1'"
+          key="1"
+        >
+          <a-input v-decorator="['component']" />
+        </a-form-item>
 
-          <a-form-item label="图标" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-input v-decorator="['icon']" />
-          </a-form-item>
-        </div>
+        <a-form-item
+          label="排序值"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          v-if="form.getFieldValue('type') !== '1'"
+          key="2"
+        >
+          <a-input v-decorator="['sort']" />
+        </a-form-item>
+
+        <a-form-item
+          label="图标"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          v-if="form.getFieldValue('type') !== '1'"
+          key="3"
+        >
+          <a-input v-decorator="['icon']" />
+        </a-form-item>
       </a-form>
     </a-spin>
   </a-modal>
@@ -71,7 +100,18 @@ export default {
       visible: false,
       confirmLoading: false,
       menuInfo: {},
-      parentMenuMap: {}
+      parentMenuMap: {},
+      buttonTypeMap: {
+        'add': '新增',
+        'delete': '删除',
+        'edit': '编辑',
+        'query': '查询',
+        'get': '详情',
+        'enable': '启用',
+        'disable': '禁用',
+        'import': '导入',
+        'export': '导出'
+      }
     }
   },
   beforeCreate () {
@@ -123,6 +163,13 @@ export default {
     },
     handleCancel () {
       this.visible = false
+    },
+    onChangeButtonType (e) {
+      const { form: { setFieldsValue } } = this
+      setFieldsValue({
+        path: e,
+        menuName: this.buttonTypeMap[e]
+      })
     }
   }
 }

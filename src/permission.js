@@ -47,9 +47,9 @@ router.beforeEach((to, from, next) => {
               message: '错误',
               description: ex.message
             })
-            store.dispatch('Logout').then(() => {
-              next({ path: '/user/login', query: { redirect: to.fullPath } })
-            })
+            // store.dispatch('Logout').then(() => {
+            //   next({ path: '/user/login', query: { redirect: to.fullPath } })
+            // })
           })
       } else {
         next()
