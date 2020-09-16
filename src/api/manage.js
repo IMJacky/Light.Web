@@ -10,6 +10,7 @@ const api = {
 
   menuMapAll: '/MenuEntity/mapAll',
   menuList: '/MenuEntity/page',
+  menuListAll: '/MenuEntity/menuList',
   menuInfo: '/MenuEntity/',
   menuEdit: '/MenuEntity/edit',
 
@@ -27,6 +28,7 @@ const api = {
   deptMapAll: '/DeptEntity/mapAll',
   deptCascadeAll: '/DeptEntity/cascadeAll',
   deptList: '/DeptEntity/page',
+  deptListAll: '/DeptEntity/deptList',
   deptInfo: '/DeptEntity/',
   deptEdit: '/DeptEntity/edit',
 
@@ -77,6 +79,14 @@ export function getMenuMapAll () {
 export function getMenuList (parameter) {
   return axios({
     url: api.menuList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getMenuListAll (parameter) {
+  return axios({
+    url: api.menuListAll,
     method: 'post',
     data: parameter
   })
@@ -188,6 +198,14 @@ export function getDeptCascadeAll () {
 export function getDeptList (parameter) {
   return axios({
     url: api.deptList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getDeptListAll (parameter) {
+  return axios({
+    url: api.deptListAll,
     method: 'post',
     data: parameter
   })

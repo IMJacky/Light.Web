@@ -60,9 +60,10 @@
       :columns="columns"
       :data="loadData"
       showPagination="auto"
+      :expandRowByClick="true"
     >
-      <span slot="message" slot-scope="text">
-        <span style="white-space: pre-wrap;">{{ text }}</span>
+      <span slot="expandedRowRender" slot-scope="record">
+        <span style="white-space: pre-wrap;">{{ record.message }}</span>
       </span>
     </s-table>
   </a-card>
@@ -118,12 +119,6 @@ export default {
           title: '操作时间',
           dataIndex: 'operationTime',
           key: 'operationTime'
-        },
-        {
-          title: '日志内容',
-          dataIndex: 'message',
-          key: 'message',
-          scopedSlots: { customRender: 'message' }
         }
       ],
       // 加载数据方法 必须为 Promise 对象

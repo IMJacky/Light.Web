@@ -1,59 +1,22 @@
 <template>
   <a-card :bordered="false">
     <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="Id">
-              <a-input v-model="queryParam.id" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="类型">
-              <a-select v-model="queryParam.type" placeholder="请选择" :allowClear="true">
-                <a-select-option value="0">菜单</a-select-option>
-                <a-select-option value="1">按钮</a-select-option>
-                <a-select-option value="2">外链</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="名称">
-              <a-input v-model="queryParam.menuName" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="父级菜单">
-              <a-select :allowClear="true" v-model="queryParam.parentMenuId" style="width: 100%">
-                <a-select-option v-for="(value, key) in parentMenuMap" :key="key">{{value}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="24" :sm="24">
-            <span class="table-page-search-submitButtons" style="float:right;">
-              <a-button type="primary" icon="search" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" icon="sync" @click="() => queryParam = {}">重置</a-button>
-              <a-button
-                style="margin-left: 8px"
-                type="primary"
-                icon="plus"
-                v-action:add
-                @click="$refs.MenuEditModal.edit(0)"
-              >新增</a-button>
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
+      <a-row :gutter="48">
+        <a-col :md="24" :sm="24">
+          <span class="table-page-search-submitButtons" style="float:right;">
+            <a-button
+              style="margin-left: 8px"
+              type="primary"
+              icon="plus"
+              v-action:add
+              @click="$refs.MenuEditModal.edit(0)"
+            >新增</a-button>
+          </span>
+        </a-col>
+      </a-row>
     </div>
 
-    <s-table
-      ref="table"
-      size="default"
-      rowKey="id"
-      :columns="columns"
-      :data="loadData"
-      showPagination="auto"
-    >
+    <a-table :columns="columns" :data-source="menuList" rowKey="id">
       <span slot="type" slot-scope="text">{{ text | statusFilter }}</span>
       <span slot="menuName" slot-scope="text">
         <ellipsis :length="40" tooltip>{{ text }}</ellipsis>
@@ -75,7 +38,7 @@
           </a-popconfirm>
         </template>
       </span>
-    </s-table>
+    </a-table>
 
     <menu-edit ref="MenuEditModal" @ok="handleOk" />
   </a-card>
@@ -83,7 +46,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getMenuList, deleteMenuInfo, getMenuMapAll } from '@/api/manage'
+import { deleteMenuInfo, getMenuMapAll, getMenuListAll } from '@/api/manage'
 import MenuEdit from './MenuEdit'
 
 const statusMap = {
@@ -107,8 +70,6 @@ export default {
   },
   data () {
     return {
-      // 查询参数
-      queryParam: {},
       // 表头
       columns: [
         {
@@ -163,15 +124,8 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        console.log('loadData.parameter', parameter)
-        return getMenuList(Object.assign(parameter, this.queryParam))
-          .then(res => {
-            return res.result
-          })
-      },
-      parentMenuMap: {}
+      parentMenuMap: {},
+      menuList: []
     }
   },
   filters: {
@@ -184,6 +138,8 @@ export default {
       .then(res => {
         this.parentMenuMap = res.result
       })
+
+    this.search()
   },
   methods: {
     remove (id) {
@@ -198,7 +154,12 @@ export default {
         })
     },
     handleOk () {
-      this.$refs.table.refresh()
+      this.search()
+    },
+    search () {
+      getMenuListAll({}).then(res => {
+        this.menuList = res.result
+      })
     }
   }
 }

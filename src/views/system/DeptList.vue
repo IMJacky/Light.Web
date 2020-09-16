@@ -1,52 +1,22 @@
 <template>
   <a-card :bordered="false">
     <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="Id">
-              <a-input v-model="queryParam.id" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="部门名">
-              <a-input v-model="queryParam.deptName" style="width: 100%" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="上级部门">
-              <a-select :allowClear="true" v-model="queryParam.parentDeptId" style="width: 100%">
-                <a-select-option v-for="(value, key) in parentDeptMap" :key="key">{{value}}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :md="24" :sm="24">
-            <span class="table-page-search-submitButtons" style="float:right;">
-              <a-button type="primary" icon="search" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" icon="sync" @click="() => queryParam = {}">重置</a-button>
-              <a-button
-                style="margin-left: 8px"
-                type="primary"
-                icon="plus"
-                @click="$refs.DeptEditModal.edit(0)"
-              >新增</a-button>
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
+      <a-row :gutter="48">
+        <a-col :md="24" :sm="24">
+          <span class="table-page-search-submitButtons" style="float:right;">
+            <a-button
+              style="margin-left: 8px"
+              type="primary"
+              icon="plus"
+              @click="$refs.DeptEditModal.edit(0)"
+            >新增</a-button>
+          </span>
+        </a-col>
+      </a-row>
     </div>
 
-    <s-table
-      ref="table"
-      size="default"
-      rowKey="id"
-      :columns="columns"
-      :data="loadData"
-      showPagination="auto"
-    >
-      <span slot="parentDeptId" slot-scope="text">
-        {{parentDeptMap[text]}}
-      </span>
+    <a-table :columns="columns" :data-source="deptList" rowKey="id">
+      <span slot="parentDeptId" slot-scope="text">{{parentDeptMap[text]}}</span>
 
       <span slot="action" slot-scope="text, record">
         <template>
@@ -57,7 +27,7 @@
           </a-popconfirm>
         </template>
       </span>
-    </s-table>
+    </a-table>
 
     <dept-edit ref="DeptEditModal" @ok="handleOk" />
   </a-card>
@@ -65,11 +35,11 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getDeptList, deleteDeptInfo, getDeptMapAll } from '@/api/manage'
+import { deleteDeptInfo, getDeptMapAll, getDeptListAll } from '@/api/manage'
 import DeptEdit from './DeptEdit'
 
 export default {
-  name: 'TableList',
+  name: 'DeptList',
   components: {
     STable,
     DeptEdit,
@@ -77,8 +47,6 @@ export default {
   },
   data () {
     return {
-      // 查询参数
-      queryParam: {},
       // 表头
       columns: [
         {
@@ -104,15 +72,8 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      // 加载数据方法 必须为 Promise 对象
-      loadData: parameter => {
-        console.log('loadData.parameter', parameter)
-        return getDeptList(Object.assign(parameter, this.queryParam))
-          .then(res => {
-            return res.result
-          })
-      },
-      parentDeptMap: {}
+      parentDeptMap: {},
+      deptList: []
     }
   },
   filters: {
@@ -122,6 +83,8 @@ export default {
       .then(res => {
         this.parentDeptMap = res.result
       })
+
+    this.search()
   },
   methods: {
     remove (id) {
@@ -136,7 +99,12 @@ export default {
         })
     },
     handleOk () {
-      this.$refs.table.refresh()
+      this.search()
+    },
+    search () {
+      getDeptListAll({}).then(res => {
+        this.deptList = res.result
+      })
     }
   }
 }
