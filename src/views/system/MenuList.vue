@@ -32,7 +32,7 @@
       <span slot="action" slot-scope="text, record">
         <template>
           <a v-action:edit @click="$refs.MenuEditModal.edit(record.id)">编辑</a>
-          <a-divider type="vertical" />
+          &nbsp;
           <a-popconfirm v-action:delete title="确定要删除么？" @confirm="remove(record.id)">
             <a>删除</a>
           </a-popconfirm>

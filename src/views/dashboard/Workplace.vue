@@ -10,13 +10,23 @@
     <div slot="extra">
       <a-row class="more-info">
         <a-col :span="8">
-          <head-info title="用户数" content="56" :center="false" :bordered="false" />
+          <head-info
+            title="用户数"
+            :content="'   ' + workplace.userCount"
+            :center="false"
+            :bordered="false"
+          />
         </a-col>
         <a-col :span="8">
-          <head-info title="部门数" content="8/24" :center="false" :bordered="false" />
+          <head-info
+            title="部门数"
+            :content="'   ' + workplace.deptCount"
+            :center="false"
+            :bordered="false"
+          />
         </a-col>
         <a-col :span="8">
-          <head-info title="岗位数" content="2,223" :center="false" />
+          <head-info title="岗位数" :content="'   ' + workplace.jobCount" :center="false" />
         </a-col>
       </a-row>
     </div>
@@ -26,26 +36,31 @@
         <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
           <a-card
             class="project-list"
-            :loading="loading"
             style="margin-bottom: 24px;"
             :bordered="false"
-            title="开发中的功能"
+            title="功能列表"
             :body-style="{ padding: 0 }"
           >
-            <a slot="extra">全部功能</a>
+            <a slot="extra">更多功能正在赶来...</a>
             <div>
-              <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in projects">
+              <a-card-grid
+                class="project-card-grid"
+                :key="i"
+                v-for="(item, i) in workplace.functionList"
+              >
                 <a-card :bordered="false" :body-style="{ padding: 0 }">
                   <a-card-meta>
                     <div slot="title" class="card-title">
-                      <a-avatar size="small" :src="item.cover" />
+                      <a-avatar size="small" :src="item.avatarUrl" />
                       <a>{{ item.title }}</a>
                     </div>
-                    <div slot="description" class="card-description">{{ item.description }}</div>
+                    <div slot="description" class="card-description">
+                      <ellipsis :length="70" tooltip>{{ item.description }}</ellipsis>
+                    </div>
                   </a-card-meta>
                   <div class="project-item">
-                    <a href="/#/">科学搬砖组</a>
-                    <span class="datetime">9小时前</span>
+                    <a>{{ item.deptName }} {{ item.developer }}</a>
+                    <span class="datetime">{{ item.completeDate }}</span>
                   </div>
                 </a-card>
               </a-card-grid>
@@ -77,13 +92,12 @@
             :body-style="{padding: 0}"
           >
             <div class="item-group">
-              <a>操作一</a>
-              <a>操作二</a>
-              <a>操作三</a>
-              <a>操作四</a>
-              <a>操作五</a>
-              <a>操作六</a>
-              <a-button size="small" type="primary" ghost icon="plus">添加</a-button>
+              <a
+                target="_blank"
+                :href="item.url"
+                :key="i"
+                v-for="(item, i) in workplace.quickNavList"
+              >{{ item.title }}</a>
             </div>
           </a-card>
           <a-card
@@ -122,8 +136,8 @@ import { mapState } from 'vuex'
 
 import { PageView } from '@/layouts'
 import HeadInfo from '@/components/tools/HeadInfo'
-import { Radar } from '@/components'
-import { getLogList } from '@/api/manage'
+import { Radar, Ellipsis } from '@/components'
+import { getLogList, getWorkplace } from '@/api/manage'
 
 const DataSet = require('@antv/data-set')
 
@@ -132,7 +146,8 @@ export default {
   components: {
     PageView,
     HeadInfo,
-    Radar
+    Radar,
+    Ellipsis
   },
   data () {
     return {
@@ -145,7 +160,7 @@ export default {
       radarLoading: true,
       activities: [],
       teams: [],
-
+      workplace: {},
       // data
       axis1Opts: {
         dataKey: 'item',
@@ -201,10 +216,17 @@ export default {
   mounted () {
     // this.getProjects()
     this.getActivity()
+    this.getWorkplace()
     // this.getTeams()
     // this.initRadar()
   },
   methods: {
+    getWorkplace () {
+      getWorkplace()
+        .then(res => {
+          this.workplace = res.result
+        })
+    },
     getProjects () {
       this.$http.get('/list/search/projects')
         .then(res => {

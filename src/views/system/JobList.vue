@@ -40,7 +40,7 @@
       <span slot="action" slot-scope="text, record">
         <template>
           <a @click="$refs.JobEditModal.edit(record.id)">编辑</a>
-          <a-divider type="vertical" />
+          &nbsp;
           <a-popconfirm title="确定要删除么？" @confirm="remove(record.id)">
             <a>删除</a>
           </a-popconfirm>

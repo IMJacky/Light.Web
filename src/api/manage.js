@@ -5,7 +5,7 @@ const api = {
   role: '/role',
 
   userMenuTree: '/auth/userMenuTree',
-
+  passwordReset: '/auth/passwordReset',
   roleMenuTree: '/auth/roleMenuTree',
 
   menuMapAll: '/MenuEntity/mapAll',
@@ -38,6 +38,7 @@ const api = {
   jobEdit: '/JobEntity/edit',
 
   logList: '/LogEntity/page',
+  workplace: '/workplace/getWorkplace',
   executeSql: '/common/executeSql',
 
   permission: '/permission',
@@ -141,6 +142,13 @@ export function deleteUserInfo (parameter) {
   return axios({
     url: api.userInfo + parameter,
     method: 'delete'
+  })
+}
+
+export function passwordReset (userId) {
+  return axios({
+    url: api.passwordReset + '?userId=' + userId,
+    method: 'get'
   })
 }
 
@@ -275,6 +283,13 @@ export function getLogList (parameter) {
     url: api.logList,
     method: 'post',
     data: parameter
+  })
+}
+
+export function getWorkplace () {
+  return axios({
+    url: api.workplace,
+    method: 'get'
   })
 }
 

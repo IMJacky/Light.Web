@@ -55,7 +55,10 @@
       <span slot="action" slot-scope="text, record">
         <template>
           <a @click="$refs.UserEditModal.edit(record.id)">编辑</a>
-          <a-divider type="vertical" />
+          &nbsp;
+          <a-popconfirm title="确定要重置么？" @confirm="passwordReset(record.id)">
+            <a>重置密码</a>
+          </a-popconfirm>&nbsp;
           <a-popconfirm title="确定要删除么？" @confirm="remove(record.id)">
             <a>删除</a>
           </a-popconfirm>
@@ -69,7 +72,7 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { getUserList, deleteUserInfo } from '@/api/manage'
+import { getUserList, deleteUserInfo, passwordReset } from '@/api/manage'
 import UserEdit from './UserEdit'
 
 export default {
@@ -132,7 +135,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '150px',
+          width: '170px',
           scopedSlots: { customRender: 'action' }
         }
       ],
@@ -160,6 +163,17 @@ export default {
             this.$message.success('删除成功！')
           } else {
             this.$message.warning('删除失败，请刷新后重试！')
+          }
+        })
+    },
+    passwordReset (id) {
+      passwordReset(id)
+        .then(res => {
+          if (res.result) {
+            this.handleOk()
+            this.$message.success('重置成功！')
+          } else {
+            this.$message.warning('重置失败，请刷新后重试！')
           }
         })
     },
