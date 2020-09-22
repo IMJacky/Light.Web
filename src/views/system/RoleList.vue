@@ -98,7 +98,7 @@ export default {
         {
           title: '操作',
           dataIndex: 'action',
-          width: '300px',
+          width: '200px',
           scopedSlots: { customRender: 'action' }
         }
       ],

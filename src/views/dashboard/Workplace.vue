@@ -101,18 +101,16 @@
             </div>
           </a-card>
           <a-card
-            title="XX 指数"
-            style="margin-bottom: 24px"
-            :loading="radarLoading"
+            title="一周登录统计"
+            style="margin-bottom: 24px;"
             :bordered="false"
             :body-style="{ padding: 0 }"
           >
-            <div style="min-height: 400px;">
-              <!-- :scale="scale" :axis1Opts="axis1Opts" :axis2Opts="axis2Opts"  -->
-              <radar :data="radarData" />
+            <div>
+              <bar style="padding: 0px;" :data="workplace.barLoginList" />
             </div>
           </a-card>
-          <a-card :loading="loading" title="团队" :bordered="false">
+          <a-card title="开发团队" :bordered="false">
             <div class="members">
               <a-row>
                 <a-col :span="12" v-for="(item, index) in teams" :key="index">
@@ -136,17 +134,15 @@ import { mapState } from 'vuex'
 
 import { PageView } from '@/layouts'
 import HeadInfo from '@/components/tools/HeadInfo'
-import { Radar, Ellipsis } from '@/components'
+import { Bar, Ellipsis } from '@/components'
 import { getLogList, getWorkplace } from '@/api/manage'
-
-const DataSet = require('@antv/data-set')
 
 export default {
   name: 'Workplace',
   components: {
     PageView,
     HeadInfo,
-    Radar,
+    Bar,
     Ellipsis
   },
   data () {
@@ -154,50 +150,9 @@ export default {
       timeFix: timeFix(),
       avatar: '',
       user: {},
-
-      projects: [],
-      loading: true,
-      radarLoading: true,
       activities: [],
-      teams: [],
-      workplace: {},
-      // data
-      axis1Opts: {
-        dataKey: 'item',
-        line: null,
-        tickLine: null,
-        grid: {
-          lineStyle: {
-            lineDash: null
-          },
-          hideFirstLine: false
-        }
-      },
-      axis2Opts: {
-        dataKey: 'score',
-        line: null,
-        tickLine: null,
-        grid: {
-          type: 'polygon',
-          lineStyle: {
-            lineDash: null
-          }
-        }
-      },
-      scale: [{
-        dataKey: 'score',
-        min: 0,
-        max: 80
-      }],
-      axisData: [
-        { item: '引用', a: 70, b: 30, c: 40 },
-        { item: '口碑', a: 60, b: 70, c: 40 },
-        { item: '产量', a: 50, b: 60, c: 40 },
-        { item: '贡献', a: 40, b: 50, c: 40 },
-        { item: '热度', a: 60, b: 70, c: 40 },
-        { item: '引用', a: 70, b: 50, c: 40 }
-      ],
-      radarData: []
+      teams: [{ name: '王杰光', avatar: '/wjg.jpg' }],
+      workplace: {}
     }
   },
   computed: {
@@ -214,11 +169,8 @@ export default {
     this.avatar = this.userInfo.avatar
   },
   mounted () {
-    // this.getProjects()
     this.getActivity()
     this.getWorkplace()
-    // this.getTeams()
-    // this.initRadar()
   },
   methods: {
     getWorkplace () {
@@ -227,40 +179,10 @@ export default {
           this.workplace = res.result
         })
     },
-    getProjects () {
-      this.$http.get('/list/search/projects')
-        .then(res => {
-          this.projects = res.result && res.result.data
-          this.loading = false
-        })
-    },
     getActivity () {
       getLogList({ pageSize: 5 })
         .then(res => {
           this.activities = res.result.data
-        })
-    },
-    getTeams () {
-      this.$http.get('/workplace/teams')
-        .then(res => {
-          this.teams = res.result
-        })
-    },
-    initRadar () {
-      this.radarLoading = true
-
-      this.$http.get('/workplace/radar')
-        .then(res => {
-          const dv = new DataSet.View().source(res.result)
-          dv.transform({
-            type: 'fold',
-            fields: ['个人', '团队', '部门'],
-            key: 'user',
-            value: 'score'
-          })
-
-          this.radarData = dv.rows
-          this.radarLoading = false
         })
     }
   }
