@@ -67,7 +67,7 @@
             </div>
           </a-card>
 
-          <a-card title="动态" :bordered="false">
+          <a-card title="动态" :bordered="false" style="margin-bottom: 24px;">
             <a-list>
               <a-list-item :key="index" v-for="(item, index) in activities">
                 <a-list-item-meta>
