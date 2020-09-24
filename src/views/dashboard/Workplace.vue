@@ -110,7 +110,7 @@
               <bar style="padding: 0px;" :data="workplace.barLoginList" />
             </div>
           </a-card>
-          <a-card title="开发团队" :bordered="false">
+          <a-card title="开发成员" :bordered="false">
             <div class="members">
               <a-row>
                 <a-col :span="12" v-for="(item, index) in teams" :key="index">
