@@ -1,70 +1,56 @@
-English | [简体中文](./README.zh-CN.md)
+- 项目预览地址: https://jiqunar.com
+- Swagger接口文档地址: https://api.jiqunar.com/swagger-ui.html
+- 前端Git地址: https://github.com/IMJacky/Light.Web
+- 后端Git地址: https://github.com/IMJacky/light-admin
 
-<h1 align="center">Ant Design Pro Vue</h1>
-<div align="center">
-An out-of-box UI solution for enterprise applications as a Vue boilerplate. based on  <a href="https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/" target="_blank">Ant Design of Vue</a>
-</div>
-
-<div align="center">
-
-[![Backers on Open Collective](https://opencollective.com/ant-design-pro-vue/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/ant-design-pro-vue/sponsors/badge.svg)](#sponsors) [![License](https://img.shields.io/npm/l/package.json.svg?style=flat)](https://github.com/sendya/ant-design-pro-vue/blob/master/LICENSE)
-[![Release](https://img.shields.io/github/release/sendya/ant-design-pro-vue.svg?style=flat)](https://github.com/sendya/ant-design-pro-vue/releases/latest)
-[![Travis branch](https://travis-ci.org/sendya/ant-design-pro-vue.svg?branch=master)](https://travis-ci.org/sendya/ant-design-pro-vue)
-
-</div>
-
-- Preview: https://preview.pro.loacg.com
-- Home Page: https://pro.loacg.com
-- Documentation: https://pro.loacg.com/docs/getting-started
-- ChangeLog: https://pro.loacg.com/docs/changelog
-- FAQ: https://pro.loacg.com/docs/faq
-
-Overview
+简介
 ----
 
-![dashboard + multi-tabs](https://static-2.loacg.com/open/static/github/20190224163345.jpg)
+1、前端：Ant Design Vue Pro
 
-![dashboard + setting](https://static-2.loacg.com/open/static/github/20181126112124.png)
+2、后端：Spring Boot，Redis，MySql，MyBatis Plus，Druid，Swagger，拦截器，过滤器，全局异常处理，日志，代码生成，多数据源
 
-![user profile](https://static-2.loacg.com/open/static/github/20180916-134251.png)
+3、对象以及数据库表：用户，角色，资源（菜单/按钮），用户所属角色（可一对多），角色所拥有的资源以及基础信息包括部门，岗位
 
-![permission list](https://static-2.loacg.com/open/static/github/20180916-154937.png)
+4、前期的前后端交互，针对后端所配置的用户权限动态来生成系统菜单，以及用户信息，登录
 
-
-### Env and dependencies
-
-- node
-- yarn
-- webpack
-- eslint
-- @vue/cli ~3
-- [ant-design-vue](https://github.com/vueComponent/ant-design-vue) - Ant Design Of Vue 
-- [vue-cropper](https://github.com/xyxiao001/vue-cropper) - Picture edit
-- [@antv/g2](https://antv.alipay.com/zh-cn/index.html) - AntV G2
-- [Viser-vue](https://viserjs.github.io/docs.html#/viser/guide/installation)  - Antv/G2 of Vue
-
-> Note:  [Yarn](https://yarnpkg.com/) package management is recommended, the exact same version loaded with the demo site of this project (yarn.lock) . but you can also use npm
+5、纯Docker容器部署到腾讯云（1C 2G）上，包括数据库，Nginx，缓存等等，使用Jenkins进行CI/CD；可惜的是前端没弄自动化，因为服务器资源不够用，动不动就TM挂掉了（垃圾Java）
 
 
-### Project setup
+总览
+----
 
-- Clone repo
-```bash
-git clone https://github.com/sendya/ant-design-pro-vue.git
-cd ant-design-pro-vue
-```
+Fork 自 [Ant Design Pro](https://pro.ant.design/) 
 
-- Install dependencies
+登录页
+![登录页](https://raw.githubusercontent.com/IMJacky/picturestore/master/login.PNG)
+
+工作台
+![工作台](https://raw.githubusercontent.com/IMJacky/picturestore/master/home.PNG)
+
+菜单
+![菜单](https://raw.githubusercontent.com/IMJacky/picturestore/master/menu.PNG)
+
+用户
+![用户](https://raw.githubusercontent.com/IMJacky/picturestore/master/user.PNG)
+
+分配资源
+![分配资源](https://raw.githubusercontent.com/IMJacky/picturestore/master/rolemenu.PNG)
+
+运行
+----
+
+- 安装依赖
 ```
 yarn install
 ```
 
-- Compiles and hot-reloads for development
+- 开发模式运行
 ```
 yarn run serve
 ```
 
-- Compiles and minifies for production
+- 编译项目
 ```
 yarn run build
 ```
@@ -73,60 +59,3 @@ yarn run build
 ```
 yarn run lint
 ```
-
-
-### Other
-
-- **IMPORTANT : About Issue feedback !! when opening Issue read [Issue / PR Contributing](https://github.com/sendya/ant-design-pro-vue/issues/90)**
-
-- [Vue-cli3](https://cli.vuejs.org/guide/) used by the project.
-
-- Disable Eslint (not recommended): remove `eslintConfig`  field in `package.json`  and `vue.config.js` field `lintOnSave: false`
-
-- Load on Demand `/src/main.js` L14, in `import './core/lazy_use'`, `import './core/use''`. more [load-on-demand.md](./docs/load-on-demand.md)
-
-- Customize Theme:  [Custom Theme Config (@kokoroli)](https://github.com/kokoroli/antd-awesome/blob/master/docs/Ant_Design_%E6%A0%B7%E5%BC%8F%E8%A6%86%E7%9B%96.md)
-
-- I18n: [locales (@musnow)](./src/locales/index.js)
-
-- Production env `mock` is disabled. use `src/mock/index.js`
-
-- pls use `release` version
-
-## Browsers support
-
-Modern browsers and IE10.
-
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera |
-| --- | --- | --- | --- | --- |
-| IE10, Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
-
-
-## Contributors
-
-This project exists thanks to all the people who contribute. 
-<a href="https://github.com/sendya/ant-design-pro-vue/graphs/contributors"><img src="https://opencollective.com/ant-design-pro-vue/contributors.svg?width=890&button=false" /></a>
-
-
-## Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/ant-design-pro-vue#backer)]
-
-<a href="https://opencollective.com/ant-design-pro-vue#backers" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/backers.svg?width=890"></a>
-
-
-## Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/ant-design-pro-vue#sponsor)]
-
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/0/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/1/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/2/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/3/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/4/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/5/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/6/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/7/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/8/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/ant-design-pro-vue/sponsor/9/website" target="_blank"><img src="https://opencollective.com/ant-design-pro-vue/sponsor/9/avatar.svg"></a>
-
