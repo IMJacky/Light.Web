@@ -41,6 +41,12 @@ const api = {
   workplace: '/workplace/getWorkplace',
   executeSql: '/common/executeSql',
 
+  dictList: '/DictEntity/page',
+  dictInfo: '/DictEntity/',
+  dictEdit: '/DictEntity/edit',
+  dictConfig: '/DictEntity/dictConfig',
+  dictConfigSave: '/DictEntity/dictConfigSave',
+
   permission: '/permission',
   permissionNoPager: '/permission/no-pager',
   orgTree: '/org/tree'
@@ -296,6 +302,52 @@ export function getWorkplace () {
 export function executeSql (parameter) {
   return axios({
     url: api.executeSql,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getDictList (parameter) {
+  return axios({
+    url: api.dictList,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function getDictInfo (parameter) {
+  return axios({
+    url: api.dictInfo + parameter,
+    method: 'get'
+  })
+}
+
+export function editDictInfo (parameter) {
+  return axios({
+    url: api.dictEdit,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function deleteDictInfo (parameter) {
+  return axios({
+    url: api.dictInfo + parameter,
+    method: 'delete'
+  })
+}
+
+export function getDictConfig (parameter) {
+  return axios({
+    url: api.dictConfig,
+    method: 'post',
+    data: parameter
+  })
+}
+
+export function saveDictConfig (parameter) {
+  return axios({
+    url: api.dictConfigSave,
     method: 'post',
     data: parameter
   })

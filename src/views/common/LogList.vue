@@ -5,12 +5,12 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="操作人Id">
-              <a-input v-model="queryParam.operateId" />
+              <a-input v-model="queryParam.userId" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="操作人姓名">
-              <a-input v-model="queryParam.operateName" style="width: 100%" />
+              <a-input v-model="queryParam.userName" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
@@ -34,19 +34,19 @@
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-form-item label="查询开始日期">
-              <a-input v-model="queryParam.beginDate" style="width: 100%" />
+            <a-form-item label="开始日期">
+              <a-date-picker style="width: 100%" v-model="queryParam.beginDate" valueFormat="YYYY-MM-DD" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-form-item label="查询结束日期">
-              <a-input v-model="queryParam.endDate" style="width: 100%" />
+            <a-form-item label="结束日期">
+              <a-date-picker style="width: 100%" v-model="queryParam.endDate" valueFormat="YYYY-MM-DD" />
             </a-form-item>
           </a-col>
           <a-col :md="24" :sm="24">
-            <span class="table-page-search-submitButtons" style="float:right;">
+            <span class="table-page-search-submitButtons" style="float: right">
               <a-button type="primary" icon="search" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" icon="sync" @click="() => queryParam = {}">重置</a-button>
+              <a-button style="margin-left: 8px" icon="sync" @click="() => (queryParam = {})">重置</a-button>
             </span>
           </a-col>
         </a-row>
@@ -63,7 +63,7 @@
       :expandRowByClick="true"
     >
       <span slot="expandedRowRender" slot-scope="record">
-        <span style="white-space: pre-wrap;">{{ record.message }}</span>
+        <span style="white-space: pre-wrap">{{ record.message }}</span>
       </span>
     </s-table>
   </a-card>
