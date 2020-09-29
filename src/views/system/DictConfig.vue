@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="字典配置"
-    :width="680"
+    :width="640"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleSubmit"
@@ -21,12 +21,12 @@
                     {
                       required: true,
                       whitespace: true,
-                      message: '请输入字典值/编码',
+                      message: '请输入字典编码',
                     },
                   ],
                 },
               ]"
-              placeholder="字典值/编码"
+              placeholder="字典编码"
               style="width: 150px"
             />
           </a-form-item>
@@ -50,10 +50,11 @@
               style="width: 150px"
             />
           </a-form-item>
-          <a-form-item>
+          <a-form-item style="margin-right:0px;">
             <a-button @click="add" icon="plus" style="margin-right: 10px" />
             <a-button v-if="index > 0" @click="remove(index)" icon="minus" />
           </a-form-item>
+          <a-divider :dashed="true" style="margin:8px 0px;" />
         </div>
       </a-form>
     </a-spin>
@@ -68,11 +69,11 @@ export default {
     return {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 7 }
+        sm: { span: 8 }
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 13 }
+        sm: { span: 12 }
       },
       visible: false,
       confirmLoading: false,
