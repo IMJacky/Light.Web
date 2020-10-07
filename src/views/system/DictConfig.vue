@@ -1,7 +1,7 @@
 <template>
   <a-modal
     title="字典配置"
-    :width="640"
+    :width="680"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleSubmit"
@@ -27,7 +27,6 @@
                 },
               ]"
               placeholder="字典编码"
-              style="width: 150px"
             />
           </a-form-item>
           <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="字典名称">
@@ -47,10 +46,9 @@
                 },
               ]"
               placeholder="字典名称"
-              style="width: 150px"
             />
           </a-form-item>
-          <a-form-item style="margin-right:0px;">
+          <a-form-item>
             <a-button @click="add" icon="plus" style="margin-right: 10px" />
             <a-button v-if="index > 0" @click="remove(index)" icon="minus" />
           </a-form-item>
