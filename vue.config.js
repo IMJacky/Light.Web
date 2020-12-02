@@ -97,7 +97,7 @@ const vueConfig = {
         }
       },
       '/api': {
-        target: 'http://10.154.5.185:10003',
+        target: 'http://10.23.214.202:10003',
         ws: false,
         changeOrigin: true,
         pathRewrite: {

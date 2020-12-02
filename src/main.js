@@ -13,12 +13,15 @@ import './permission' // permission control
 import './utils/filter' // global filter
 import './components/global.less'
 import { Dialog } from '@/components'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/swiper-bundle.css'
 
 Vue.config.productionTip = false
 
 // mount axios Vue.$http and this.$http
 Vue.use(VueAxios)
 Vue.use(Dialog)
+Vue.use(VueAwesomeSwiper)
 
 new Vue({
   router,
