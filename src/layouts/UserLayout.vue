@@ -13,12 +13,24 @@
       <route-view></route-view>
 
       <div class="footer">
-        <div class="links" style="display:none;">
+        <div class="links" style="display: none">
           <a href="_self">帮助</a>
           <a href="_self">隐私</a>
           <a href="_self">条款</a>
         </div>
-        <div class="copyright">Copyright &copy; 2020 王杰光-Jack</div>
+        <div class="copyright">
+          Copyright &copy; 2021 <span>王杰光-Jack &nbsp;</span>
+          <img src="/jgwa.png" />
+          <a
+            style="margin-left: 5px; color: rgba(0, 0, 0, 0.45)"
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050602010240"
+            target="_blank"
+            >京公网安备32050602010240号</a
+          >
+          <a style="margin-left: 5px; color: rgba(0, 0, 0, 0.45)" href="https://beian.miit.gov.cn" target="_blank"
+            >苏ICP备17029611号</a
+          >
+        </div>
       </div>
     </div>
   </div>

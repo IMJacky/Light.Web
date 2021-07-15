@@ -1,14 +1,8 @@
 <template>
   <div class="footer">
     <div class="links">
-      <a
-        href="https://jiqunar.com/"
-        target="_blank"
-      >Light 首页</a>
-      <a
-        href="https://github.com/IMJacky/Light.Web"
-        target="_blank"
-      >
+      <a href="https://jiqunar.com/" target="_blank">Light 首页</a>
+      <a href="https://github.com/IMJacky/Light.Web" target="_blank">
         <a-icon type="github" />
       </a>
       <a href="https://ant.design/" target="_blank">Ant Design</a>
@@ -16,7 +10,17 @@
     </div>
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> 2020 <span>By Jack</span>
+      <a-icon type="copyright" /> 2021 <span>By 王杰光-Jack &nbsp;</span>
+      <img src="/jgwa.png" />
+      <a
+        style="margin-left: 5px; color: rgba(0, 0, 0, 0.45)"
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050602010240"
+        target="_blank"
+        >京公网安备32050602010240号</a
+      >
+      <a style="margin-left: 5px; color: rgba(0, 0, 0, 0.45)" href="https://beian.miit.gov.cn" target="_blank"
+        >苏ICP备17029611号</a
+      >
     </div>
   </div>
 </template>
