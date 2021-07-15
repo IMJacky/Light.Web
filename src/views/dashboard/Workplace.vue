@@ -66,7 +66,12 @@
               </a-card-grid>
             </div>
           </a-card>
-
+          <a-card title="生成自己的个性签名" :bordered="false" style="margin-bottom: 24px;">
+            <vue-esign ref="esign" :isCrop="isCrop" :lineWidth="lineWidth" :lineColor="lineColor" :bgColor.sync="bgColor" />
+            <button @click="handleReset">清空画板</button>
+            <button @click="handleGenerate">生成图片</button>
+            <img style="margin-top: 10px;display: block;max-width: 100%;height: auto;border: 1px solid #ececee;" v-if="resultImg" :src="resultImg" alt="">
+          </a-card>
           <a-card title="动态" :bordered="false" style="margin-bottom: 24px;">
             <a-list>
               <a-list-item :key="index" v-for="(item, index) in activities">
@@ -152,7 +157,12 @@ export default {
       user: {},
       activities: [],
       teams: [{ name: '王杰光', avatar: '/wjg.jpg' }],
-      workplace: {}
+      workplace: {},
+      lineWidth: 6,
+      lineColor: '#000000',
+      bgColor: '',
+      resultImg: '',
+      isCrop: false
     }
   },
   computed: {
@@ -184,6 +194,16 @@ export default {
         .then(res => {
           this.activities = res.result.data
         })
+    },
+    handleReset () {
+      this.$refs.esign.reset()
+    },
+    handleGenerate () {
+      this.$refs.esign.generate().then(res => {
+        this.resultImg = res
+      }).catch(err => {
+        alert(err) // 画布没有签字时会执行这里 'Not Signned'
+      })
     }
   }
 }

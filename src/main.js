@@ -15,6 +15,7 @@ import './components/global.less'
 import { Dialog } from '@/components'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/swiper-bundle.css'
+import vueEsign from 'vue-esign'
 
 Vue.config.productionTip = false
 
@@ -22,6 +23,7 @@ Vue.config.productionTip = false
 Vue.use(VueAxios)
 Vue.use(Dialog)
 Vue.use(VueAwesomeSwiper)
+Vue.use(vueEsign)
 
 new Vue({
   router,
